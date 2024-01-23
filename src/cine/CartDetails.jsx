@@ -4,10 +4,11 @@ import checkout from "../assets/icons/checkout.svg";
 
 /* eslint-disable react/prop-types */
 const CartDetails = ({ handleCartClose, cartData, setCartData }) => {
-  const handleRemove = (id) => {
-    const movies = cartData.filter((item) => item.id !== id);
-
-    setCartData(movies);
+  const handleRemove = (item) => {
+    setCartData({
+      type: "REMOVE_FROM_CART",
+      payload: item,
+    });
   };
 
   return (
@@ -38,7 +39,7 @@ const CartDetails = ({ handleCartClose, cartData, setCartData }) => {
                 </div>
                 <div className="flex justify-between gap-4 items-center">
                   <button
-                    onClick={() => handleRemove(movie.id)}
+                    onClick={() => handleRemove(movie)}
                     className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
                   >
                     <img className="w-5 h-5" src={deleteImg} alt="" />

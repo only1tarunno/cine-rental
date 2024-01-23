@@ -5,19 +5,29 @@ import { getImgUrl } from "../utils/imgloadfromdata";
 import Rating from "./Rating";
 import MovieDetails from "./MovieDetails";
 import { MovieContext } from "../context";
+import { toast } from "react-toastify";
 
 const MovieCard = ({ movie }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const { cartData, setCartData } = useContext(MovieContext);
+  const { state, dispatch } = useContext(MovieContext);
 
   const handleAddToCart = (e, movie) => {
     e.stopPropagation();
 
-    const found = cartData.find((item) => item.id === movie.id);
+    const found = state.cartData.find((item) => {
+      return item.id === movie.id;
+    });
     if (!found) {
       setShowModal(false);
-      return setCartData([...cartData, movie]);
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: movie,
+      });
+
+      return toast.success(`Added  ${movie.title} to Cart !`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     } else {
       return alert("added");
     }
